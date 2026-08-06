@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+
+body, html {
+  background-color: black;
+  color: white;
+}
+
+.arrow {
+  border-top: 60px solid transparent;
+  border-bottom: 60px solid transparent;
+  border-right: 50px solid #1e2939;
+}
+
+
+.child {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.parent:hover .child {
+  opacity: 0.6;
+}
