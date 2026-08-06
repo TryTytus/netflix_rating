@@ -20,7 +20,6 @@ function App() {
       <Section title='Top rated with 100k votes' url='/api/movies/netflix_top_100000_votes/' />
       <Section title='Top rated with 1k votes' url='/api/movies/netflix_top_1000_votes/' />
 
-
       {genres.map((genre, i) => (
       <Fragment key={i}>
         <Section title={`${genre?.name} top by rating`} url={`/api/movies/netflix_top_genre_by_rating/${genre?.id}/`} />
