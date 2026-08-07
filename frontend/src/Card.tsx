@@ -17,8 +17,8 @@ function Card({title, poster_url, rating, vote_count}: CardParams) {
             return '>1k'
         }
 
-        const numOfThounsends = Math.floor(vote_count / 1000)
-        return `${numOfThounsends}k`
+        const numOfThousends = Math.floor(vote_count / 1000)
+        return `${numOfThousends}k`
     }
 
     const card : RefObject<HTMLDivElement> | undefined = useRef(undefined)
