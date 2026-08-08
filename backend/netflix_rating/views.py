@@ -2,8 +2,11 @@ import requests
 
 from django.conf import settings
 from django.core.cache import cache
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_GET
+import httpx
+from bs4 import BeautifulSoup
+import re
 
 
 TMDB_DISCOVER_URL = "https://api.themoviedb.org/3/discover/movie"
@@ -303,13 +306,10 @@ def genres(request):
 
 @require_GET
 def netflix_link(request, tmdb_id):
-
-
     headers = {
         "accept": "application/json",
         "Authorization": f"Bearer {settings.TMDB_ACCESS_TOKEN}",
     }
-
 
     response = requests.get(
                 f"https://api.themoviedb.org/3/movie/{tmdb_id}/watch/providers",
@@ -318,8 +318,16 @@ def netflix_link(request, tmdb_id):
             )
 
     data = response.json()
+    link = data["results"]["PL"]["link"]
 
-    return JsonResponse(data)
+    html = httpx.get(link).text
+    soup = BeautifulSoup(html, "html.parser")
+
+    netflix_img = soup.select_one('.providers a[title*="Netflix"]')
+    return JsonResponse({
+        "link": netflix_img["href"]
+    })
+
 
 
 # @require_GET

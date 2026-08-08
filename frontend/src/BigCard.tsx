@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import Button from "./Button"
 import type { CardParams } from "./Card"
 
@@ -8,7 +9,7 @@ type BigCardParams = {
     onMouseLeaveTriggered: () => void
 } & CardParams
 
-function BigCard({title, is_visible, poster_url, rating, vote_count, top, left, onMouseLeaveTriggered} : BigCardParams)
+function BigCard({title, is_visible, poster_url, rating, vote_count, imdb_id, top, left, onMouseLeaveTriggered} : BigCardParams)
 {
 
     const getFormattedVotes = (vote_count: number): string =>  {
@@ -20,6 +21,17 @@ function BigCard({title, is_visible, poster_url, rating, vote_count, top, left, 
         const numOfThounsends = Math.floor(vote_count / 1000)
         return `${numOfThounsends}k`
     }
+
+    const [link, setLink] = useState("");
+
+
+    useEffect(() => {
+        fetch(`http://localhost:8000/api/netflix_link/${imdb_id}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setLink(data?.link)
+            })
+    }, [])
 
     return (
     <>
@@ -35,11 +47,11 @@ function BigCard({title, is_visible, poster_url, rating, vote_count, top, left, 
                 {getFormattedVotes(vote_count)}
             </div>
             <div className="h-16 bg-gray-900 flex justify-evenly items-center">
-                <Button>
+                <Button link={""}>
                     <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                     Details
                 </Button>
-                <Button>
+                <Button link={link}>
                     <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
                     Watch
                 </Button>

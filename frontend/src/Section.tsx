@@ -77,7 +77,7 @@ function Section({title, url}: {title: string, url:string}) {
       </div>
       </div>
       <div ref={cardsElement} className='flex overflow-x-scroll gap-5 ml-20 mr-20'>
-        {movies.map(movie => (<Card key={movie?.tmdb_id} rating={movie?.rating} vote_count={movie?.vote_count} poster_url={movie?.poster_url}></Card>))}
+        {movies.map(movie => (<Card key={movie?.tmdb_id} rating={movie?.rating} vote_count={movie?.vote_count} poster_url={movie?.poster_url} imdb_id={movie?.tmdb_id}></Card>))}
         <div ref={scrollTriggerElement} id="scroll-sentinel" className="w-10 h-full flex-shrink-0" />
       </div>
     </div>
